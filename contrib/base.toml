@@ -1,0 +1,7 @@
+
+
+[mysql]
+    database = "mydb"
+    host = "myhost"
+    user = "myuser"
+    passwd = "mypassword"
