@@ -1,9 +1,8 @@
 
 defmodule Config do
   Dict.get(Mix.Project.config, :config_files, []) |> Enum.each fn({confkey, file}) ->
-      {:ok, toml} = :etoml.parse(File.read!(file))
-      IO.puts "Create Config.#{String.capitalize(atom_to_binary(confkey))}"
-      
+    IO.puts "Create config #{confkey} from file #{file}"
+    {:ok, toml} = :etoml.parse(File.read!(file))
 
     toml |> Enum.each fn({key, value}) ->
       def env(unquote(confkey), unquote(binary_to_atom(key))), do: unquote(value)  
