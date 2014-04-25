@@ -1,12 +1,12 @@
 # Exconfig
 
 
-** Setup:
+Setup:
 
 ```
 # mix.exs
 
-defmodule Exconfig.Mixfile do
+defmodule MyApp.Mixfile do
   use Mix.Project
 
   def project do
@@ -38,7 +38,7 @@ end
 
 ```
 
-** Usage:
+Usage:
 
 ```
 # contrub/base.toml
@@ -48,7 +48,6 @@ end
     host = "myhost"
     user = "myuser"
     passwd = "mypassword"
-
 
 ```
 

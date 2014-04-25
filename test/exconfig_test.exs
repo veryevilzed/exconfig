@@ -1,7 +1,7 @@
 defmodule ExconfigTest do
   use ExUnit.Case
 
-  test "the truth" do
+  test "Config" do
     assert 1 + 1 == 2
   end
 end
