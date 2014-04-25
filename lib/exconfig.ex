@@ -17,16 +17,20 @@ defmodule Config do
 
 
   def env(_, _), do: :error
+
+  @doc """
+  Get value for key in default group
+  """
   def env(key), do: env(:base, key)
 
   @doc """
-  Получить данные группы
+  Get group data
   """
   def get(group, key), do: Dict.get(env(group), key)
   def get(group, key, default), do: Dict.get(env(group), key, default)
 
   @doc """
-  Получить список ключей группы
+  Get all keys for default group
   """
   def keys(group), do: Dict.keys(env(group))
 
