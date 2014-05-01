@@ -14,7 +14,7 @@ defmodule ExConfig do
                   def unquote(:"#{key}")(), do: unquote(value)
                 end
               end #Enum toml
-            end Enum.map Dict
+            end #Enum.map Dict
           end #unquote
 
           def env(_, _), do: :error
