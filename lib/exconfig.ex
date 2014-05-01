@@ -9,12 +9,10 @@ defmodule ExConfig do
             IO.puts "Create config :#{confkey} from file #{file}"
             {:ok, toml} = :etoml.parse(File.read!(file))
             toml |> Enum.map fn({key, value}) ->
-              quote do 
-                def env(unquote(confkey), unquote(binary_to_atom(key))), do: unquote(value)  
-                def unquote(:"#{key}")(), do: unquote(value)
-              end
+              
+              def env(confkey, binary_to_atom(key)), do: value 
+                #def unquote(:"#{key}")(), do: unquote(value)
             end
-            toml
           end
 
           def env(_, _), do: :error
