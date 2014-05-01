@@ -1,5 +1,5 @@
 defmodule ExConfig do
-  defmacro __usinf__(_opts) do
+  defmacro __using__(_opts) do
 
     quote do
       defmodule Config do
