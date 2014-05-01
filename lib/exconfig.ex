@@ -4,16 +4,18 @@ defmodule ExConfig do
     quote do
       defmodule Config do
 
-
-          Dict.get(Mix.Project.config, :config_files, []) |> Enum.map fn({confkey, file}) ->
-            IO.puts "Create config :#{confkey} from file #{file}"
-            {:ok, toml} = :etoml.parse(File.read!(file))
-            toml |> Enum.map fn({key, value}) ->
-              
-              def env(confkey, binary_to_atom(key)), do: value 
-                #def unquote(:"#{key}")(), do: unquote(value)
-            end
-          end
+          unquote do
+            Dict.get(Mix.Project.config, :config_files, []) |> Enum.map fn({confkey, file}) ->
+              IO.puts "Create config :#{confkey} from file #{file}"
+              {:ok, toml} = :etoml.parse(File.read!(file))
+              toml |> Enum.map fn({key, value}) ->
+                quote do
+                  def env(unquote(confkey), unquote(binary_to_atom(key))), do: unquote(value)
+                  def unquote(:"#{key}")(), do: unquote(value)
+                end
+              end #Enum toml
+            end Enum.map Dict
+          end #unquote
 
           def env(_, _), do: :error
 
