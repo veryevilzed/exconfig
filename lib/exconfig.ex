@@ -14,6 +14,7 @@ defmodule ExConfig do
                 def unquote(:"#{key}")(), do: unquote(value)
               end
             end
+            toml
           end
 
           def env(_, _), do: :error
