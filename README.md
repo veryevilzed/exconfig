@@ -52,6 +52,7 @@ Usage:
 ```
 
 ```
+iex()> use ExConfig
 
 iex()> Config.mysql
 [{"passwd", "mypassword"}, {"user", "myuser"}, {"host", "myhost"},
