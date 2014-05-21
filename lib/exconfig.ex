@@ -6,8 +6,8 @@ defmodule ExConfig do
 
           unquote do
             Dict.get(Mix.Project.config, :config_files, []) |> Enum.map fn({confkey, file}) ->
-              IO.puts "Create config :#{confkey} from file #{file}"
               {:ok, toml} = :etoml.parse(File.read!(file))
+              IO.puts "Create config :#{confkey} from file #{file}, toml: #{toml}"
               toml |> ExConfig.Utils.process_dict |> Enum.map fn({key, value}) ->
                   quote do
                     def env(unquote(confkey), unquote(ExConfig.Utils.to_atom(key)), _), do: unquote(value)
