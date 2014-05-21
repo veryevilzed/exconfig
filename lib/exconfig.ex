@@ -1,7 +1,7 @@
 defmodule ExConfig do
   defmacro __using__(_opts) do
 
-    quote do
+    quote location: :keep do
       defmodule Config do
 
           unquote do
@@ -9,10 +9,23 @@ defmodule ExConfig do
               IO.puts "Create config :#{confkey} from file #{file}"
               {:ok, toml} = :etoml.parse(File.read!(file))
               toml |> Enum.map fn({key, value}) ->
+
+                #Преобразовывает массив [{"k","v"}, ...] в [{:k, "v"}, ...]
+                bin_value = case value do
+                  value when is_list(value) -> Enum.map value, 
+                      fn ({k,v}) when is_atom(k) -> {k, v};
+                      ({k,v}) -> { binary_to_atom(k), v };
+                      (item)  -> item end
+                  value -> value
+                end
+
+                IO.puts "#{inspect key} = #{inspect bin_value}"
+
                 quote do
-                  def env(unquote(confkey), unquote(binary_to_atom(key)), _), do: unquote(value)
-                  def env(unquote(confkey), unquote(binary_to_atom(key))), do: unquote(value)
-                  def unquote(:"#{key}")(), do: unquote(value)
+                  def env(unquote(confkey), unquote(binary_to_atom(key)), _), do: unquote(bin_value)
+                  def env(unquote(confkey), unquote(binary_to_atom(key))), do: unquote(bin_value)
+
+                  def unquote(:"#{key}")(), do: unquote(bin_value)
                 end
               end #Enum toml
             end #Enum.map Dict

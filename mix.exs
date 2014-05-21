@@ -6,6 +6,9 @@ defmodule Exconfig.Mixfile do
      app: :exconfig,
      version: "0.0.1",
      deps: deps,
+     config_files: [
+        base: "contrib/base.toml"
+     ]
     ]
   end
 
