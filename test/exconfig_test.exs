@@ -1,7 +1,8 @@
 defmodule ExconfigTest do
   use ExUnit.Case
+  use Config
 
   test "Config" do
-    assert 1 + 1 == 2
+    IO.puts Config.env :mysql
   end
 end
