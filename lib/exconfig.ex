@@ -12,7 +12,6 @@ defmodule ExConfig do
                   quote do
                     def env(unquote(confkey), unquote(ExConfig.Utils.to_atom(key)), _), do: unquote(value)
                     def env(unquote(confkey), unquote(ExConfig.Utils.to_atom(key))), do: unquote(value)
-
                     def unquote(:"#{key}")(), do: unquote(value)
                   end;
               end #Enum toml
