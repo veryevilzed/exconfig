@@ -6,3 +6,17 @@
     user = "myuser"
     passwd = "mypassword"
 
+
+[blocks]
+    [blocks.subblock1]
+        username = "user1"
+        password = "passwd1"
+        host = "host1.ru"
+        param = 1
+    [blocks.subblock2]
+        username = "user2"
+        password = "passwd2"
+        host = "host2.ru"
+        param = [1,2,4]
+
+

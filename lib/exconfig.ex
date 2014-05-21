@@ -8,22 +8,13 @@ defmodule ExConfig do
             Dict.get(Mix.Project.config, :config_files, []) |> Enum.map fn({confkey, file}) ->
               IO.puts "Create config :#{confkey} from file #{file}"
               {:ok, toml} = :etoml.parse(File.read!(file))
-              toml |> Enum.map fn({key, value}) ->
+              toml |> ExConfig.Utils.process_dict |> Enum.map fn({key, value}) ->
+                  quote do
+                    def env(unquote(confkey), unquote(ExConfig.Utils.to_atom(key)), _), do: unquote(value)
+                    def env(unquote(confkey), unquote(ExConfig.Utils.to_atom(key))), do: unquote(value)
 
-                #Преобразовывает массив [{"k","v"}, ...] в [{:k, "v"}, ...]
-                bin_value = case value do
-                  value when is_list(value) -> Enum.map value, 
-                      fn ({k,v}) when is_atom(k) -> {k, v};
-                      ({k,v}) -> { binary_to_atom(k), v };
-                      (item)  -> item end
-                  value -> value
-                end
-                quote do
-                  def env(unquote(confkey), unquote(binary_to_atom(key)), _), do: unquote(bin_value)
-                  def env(unquote(confkey), unquote(binary_to_atom(key))), do: unquote(bin_value)
-
-                  def unquote(:"#{key}")(), do: unquote(bin_value)
-                end
+                    def unquote(:"#{key}")(), do: unquote(value)
+                  end;
               end #Enum toml
             end #Enum.map Dict
           end #unquote
