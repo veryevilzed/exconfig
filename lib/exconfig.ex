@@ -13,6 +13,7 @@ defmodule ExConfig do
                     def env(unquote(confkey), unquote(ExConfig.Utils.to_atom(key)), _), do: unquote(value)
                     def env(unquote(confkey), unquote(ExConfig.Utils.to_atom(key))), do: unquote(value)
                     def unquote(:"#{key}")(), do: unquote(value)
+                    IO.puts "Create method :#{key} with #{inspect value}"
                   end;
               end #Enum toml
             end #Enum.map Dict
