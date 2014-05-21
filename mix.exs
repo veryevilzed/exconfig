@@ -6,9 +6,6 @@ defmodule Exconfig.Mixfile do
      app: :exconfig,
      version: "0.0.1",
      deps: deps,
-     env: [
-        dev: dev
-      ]
     ]
   end
 
@@ -19,11 +16,6 @@ defmodule Exconfig.Mixfile do
     [ applications: [] ]
   end
 
-  def dev, do: [
-    config_files: [
-      base: "contrib/base.toml"
-    ]
-  ]
 
   # List all dependencies in the format:
   #

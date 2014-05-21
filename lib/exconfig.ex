@@ -10,6 +10,7 @@ defmodule ExConfig do
               {:ok, toml} = :etoml.parse(File.read!(file))
               toml |> Enum.map fn({key, value}) ->
                 quote do
+                  def env(unquote(confkey), unquote(binary_to_atom(key)), _), do: unquote(value)
                   def env(unquote(confkey), unquote(binary_to_atom(key))), do: unquote(value)
                   def unquote(:"#{key}")(), do: unquote(value)
                 end
@@ -18,6 +19,7 @@ defmodule ExConfig do
           end #unquote
 
           def env(_, _), do: :error
+          def env(_, _, default), do: default
 
           @doc """
           Get value for key in default group
