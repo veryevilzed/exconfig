@@ -18,9 +18,6 @@ defmodule ExConfig do
                       (item)  -> item end
                   value -> value
                 end
-
-                IO.puts "#{inspect key} = #{inspect bin_value}"
-
                 quote do
                   def env(unquote(confkey), unquote(binary_to_atom(key)), _), do: unquote(bin_value)
                   def env(unquote(confkey), unquote(binary_to_atom(key))), do: unquote(bin_value)
