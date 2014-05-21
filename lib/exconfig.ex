@@ -7,13 +7,13 @@ defmodule ExConfig do
           unquote do
             Dict.get(Mix.Project.config, :config_files, []) |> Enum.map fn({confkey, file}) ->
               {:ok, toml} = :etoml.parse(File.read!(file))
-              IO.puts "Create config :#{confkey} from file #{file}, toml: #{inspect toml}"
+              IO.puts "Create config :#{confkey} from file #{file}, toml: #{inspect ExConfig.Utils.process_dict(toml)}"
               toml |> ExConfig.Utils.process_dict |> Enum.map fn({key, value}) ->
                   quote do
                     def env(unquote(confkey), unquote(ExConfig.Utils.to_atom(key)), _), do: unquote(value)
                     def env(unquote(confkey), unquote(ExConfig.Utils.to_atom(key))), do: unquote(value)
                     def unquote(:"#{key}")(), do: unquote(value)
-                    IO.puts "Create method :#{key} with #{inspect value}"
+                    IO.puts "Create method #{unquote(key)} with #{inspect unquote(value)}"
                   end;
               end #Enum toml
             end #Enum.map Dict
